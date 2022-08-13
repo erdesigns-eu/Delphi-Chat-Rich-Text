@@ -44,6 +44,8 @@ type
     btnSave: TToolButton;
     ToolButton4: TToolButton;
     SavePictureDialog: TSavePictureDialog;
+    Label2: TLabel;
+    cbCategories: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure pbPreviewPaint(Sender: TObject);
@@ -62,6 +64,7 @@ type
     procedure btnOKClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
+    procedure cbCategoriesChange(Sender: TObject);
   private
     { Private declarations }
     FBuffer       : TBitmap;
@@ -72,6 +75,7 @@ type
     { Public declarations }
     procedure LoadItems(const Items: TEmojiCollection);
     procedure SaveItems(const Items: TEmojiCollection);
+    procedure LoadCategories(const Lines: TStrings);
 
     property Items: TEmojiCollection read FEditorItems;
     property EmojiList: TEmojiList read FEmojiList write FEmojiList;
@@ -106,6 +110,13 @@ end;
 procedure TfrmEmojiListEditor.SaveItems(const Items: TEmojiCollection);
 begin
   Items.Assign(FEditorItems);
+end;
+
+procedure TfrmEmojiListEditor.LoadCategories(const Lines: TStrings);
+begin
+  cbCategories.Clear;
+  cbCategories.Items.Assign(Lines);
+  cbCategories.Enabled := cbCategories.Items.Count > 0;
 end;
 
 procedure TfrmEmojiListEditor.pbPreviewPaint(Sender: TObject);
@@ -167,6 +178,7 @@ begin
       E.Picture.LoadFromFile(OpenPictureDialog.Files[I]);
       E.DisplayName := ChangeFileExt(ExtractFilename(OpenPictureDialog.Files[I]), '');
       E.Filename    := ExtractFilename(OpenPictureDialog.Files[I]);
+      E.Category    := -1;
     end;
   end;
   // Load items in list
@@ -268,6 +280,7 @@ begin
     imgPreview.Picture.Assign(FEditorItems.Items[Item.Index].Picture);
     edtDisplayName.Text := FEditorItems.Items[Item.Index].DisplayName;
     edtShortCode.Text   := FEditorItems.Items[Item.Index].ShortCode;
+    cbCategories.ItemIndex := FEditorItems.Items[lvItems.Selected.Index].Category;
 
     btnDelete.Enabled  := True;
     btnReplace.Enabled := True;
@@ -279,6 +292,7 @@ begin
     imgPreview.Picture  := nil;
     edtDisplayName.Text := '';
     edtShortCode.Text   := '';
+    cbCategories.ItemIndex := -1;
 
     btnDelete.Enabled  := False;
     btnReplace.Enabled := False;
@@ -309,6 +323,16 @@ begin
     lvItems.Selected.SubItems[0] := edtShortCode.Text;
     lvItems.Items.EndUpdate;
     FEditorItems.Items[lvItems.Selected.Index].ShortCode := edtShortCode.Text;
+  end;
+end;
+
+procedure TfrmEmojiListEditor.cbCategoriesChange(Sender: TObject);
+begin
+  if Assigned(lvItems.Selected) then
+  begin
+    lvItems.Items.BeginUpdate;
+    lvItems.Items.EndUpdate;
+    FEditorItems.Items[lvItems.Selected.Index].Category := cbCategories.ItemIndex;
   end;
 end;
 

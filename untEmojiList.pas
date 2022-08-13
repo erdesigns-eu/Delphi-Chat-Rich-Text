@@ -32,6 +32,7 @@ type
     FDisplayName : string;
     FShortCode   : string;
     FFilename    : string;
+    FCategory    : Integer;
 
     // Property Setters
     procedure SetPicture(const P: TPicture);
@@ -53,6 +54,7 @@ type
     property Picture: TPicture read FPicture write SetPicture;
     property DisplayName: string read FDisplayName write SetDisplayName;
     property ShortCode: string read FShortCode write SetShortCode;
+    property Category: Integer read FCategory write FCategory;
   end;
 
 {*******************************************************}
@@ -87,16 +89,18 @@ type
     FOnChange : TNotifyEvent;
 
     // Properties
-    FItems    : TEmojiCollection;
-    FWidth    : Integer;
-    FHeight   : Integer;
-    FFallBack : TEmoji;
+    FItems      : TEmojiCollection;
+    FWidth      : Integer;
+    FHeight     : Integer;
+    FFallBack   : TEmoji;
+    FCategories : TStrings;
 
     // Property Setters
     procedure SetItems(const L: TEmojiCollection);
     procedure SetWidth(const I: Integer);
     procedure SetHeight(const I: Integer);
     procedure SetFallback(const P: TPicture);
+    procedure SetCategories(const S: TStrings);
 
     // Property Getters
     function GetFallback : TPicture;
@@ -141,6 +145,9 @@ type
 
     // Fallback Emoji
     property FallbackEmoji: TPicture read GetFallBack write SetFallback;
+
+    // Categories
+    property Categories: TStrings read FCategories write SetCategories;
   end;
 
 implementation
@@ -152,6 +159,9 @@ constructor TEmoji.Create(Collection: TCollection);
 begin
   // Create
   inherited Create(Collection);
+
+  // Default category
+  FCategory := -1;
 
   // Create Picture
   FPicture := TPicture.Create;
@@ -198,6 +208,7 @@ begin
     FDisplayName := (Source as TEmoji).DisplayName;
     FShortCode   := (Source as TEmoji).ShortCode;
     FFilename    := (Source as TEmoji).Filename;
+    FCategory    := (Source as TEmoji).Category;
   end;
   if Assigned(OnChange) then OnChange(Self);
 end;
@@ -266,6 +277,9 @@ begin
   FFallBack.ShortCode   := FBName;
   FFallBack.OnChange := OnFallbackChange;
 
+  // Create categories list
+  FCategories := TStringList.Create;
+
   // Set Default settings
   FWidth  := 18;
   FHeight := 18;
@@ -278,6 +292,9 @@ begin
 
   // Free Fallback emoji picture
   FFallback.Free;
+
+  // Free Categories
+  FCategories.Free;
 
   // Free
   inherited Destroy;
@@ -310,6 +327,11 @@ procedure TEmojiList.SetFallback(const P: TPicture);
 begin
   FFallBack.Picture.Assign(P);
   if Assigned(OnChange) then OnChange(Self);
+end;
+
+procedure TEmojiList.SetCategories(const S: TStrings);
+begin
+  FCategories.Assign(S);
 end;
 
 function TEmojiList.GetFallback: TPicture;
@@ -351,6 +373,7 @@ begin
     FWidth  := (Source as TEmojiList).Width;
     FHeight := (Source as TEmojiList).Height;
     FFallback.Assign((Source as TEmojiList).FallBackEmoji);
+    FCategories.Assign((Source as TEmojiList).Categories);
     //
     if Assigned(OnChange) then OnChange(Self);
   end else
@@ -381,6 +404,7 @@ begin
   Emoji.DisplayName := DisplayName;
   Emoji.ShortCode   := ShortCode;
   Emoji.Filename    := Filename;
+  Result := Emoji.Index;
   if Assigned(OnChange) then OnChange(Self);
 end;
 
@@ -402,7 +426,7 @@ var
 begin
   Result := FFallback;
   for I := 0 to Count -1 do
-  if CompareText(ShortCode, Items.Items[I].ShortCode) = 0 then
+  if AnsiCompareText(ShortCode, Items.Items[I].ShortCode) = 0 then
   begin
     Result := Items.Items[I];
     Break;
@@ -421,7 +445,7 @@ procedure TEmojiList.DrawEmoji(const ShortCode: string; const Canvas: TCanvas; c
 var
   E : TEmoji;
 begin
-  E := GetEmoji(ShortCode);
+  E := GetEmoji(Trim(ShortCode));
   if Assigned(E) then if Assigned(E) then DrawEmoji(E, Canvas, X, Y);
 end;
 
@@ -429,7 +453,7 @@ procedure TEmojiList.DrawEmoji(const ShortCode: string; const Canvas: TDirect2DC
 var
   E : TEmoji;
 begin
-  E := GetEmoji(ShortCode);
+  E := GetEmoji(Trim(ShortCode));
   if Assigned(E) then DrawEmoji(E, Canvas, X, Y);
 end;
 

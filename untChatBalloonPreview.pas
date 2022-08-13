@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, untChatBalloon,
-  untEmojiList, untChatRichText;
+  untEmojiList, untChatRichText, untChatRichTextEdit;
 
 type
   TfrmChatBalloonPreview = class(TForm)
@@ -244,11 +244,13 @@ begin
   M := -1;
   C := crDefault;
   for I := 0 to Words.Count -1 do
-  if (Words.Items[I] is TLinkInfo) and PtInRect(Words.Items[I].Rect, TPoint.Create(X, Y)) then
   begin
-    M := (Words.Items[I] as TLinkInfo).LinkIndex;
-    C := crHandpoint;
-    Break;
+    if (Words.Items[I] is TLinkInfo) and PtInRect(Words.Items[I].Rect, TPoint.Create(X, Y)) then
+    begin
+      M := (Words.Items[I] as TLinkInfo).LinkIndex;
+      C := crHandpoint;
+      Break;
+    end;
   end;
   if PtInRect(UsernameRect, TPoint.Create(X, Y)) then
   begin

@@ -43,6 +43,7 @@ type
     FRect       : TRect;
     FCharHeight : Integer;
     FCharWidth  : Integer;
+    FSelected   : Boolean;
   public
     constructor Create(const Character: WideString; const Width: Integer; const Height: Integer);
 
@@ -50,6 +51,7 @@ type
     property Rect: TRect read FRect write FRect;
     property CharHeight: Integer read FCharHeight write FCharHeight;
     property CharWidth: Integer read FCharWidth write FCharWidth;
+    property Selected: Boolean read FSelected write FSelected;
   end;
 
 {*******************************************************}
@@ -310,6 +312,8 @@ procedure ParseText(const Text: WideString; var Words: TWordInfoList);
 // Build lines and measure the output Rect
 function BuildLines(var Words: TWordInfoList; var Lines: TLineInfoList; const EmojiSize: TSize;
   const R: TRect; const BuildCharacters: Boolean; const Canvas: TCanvas) : TRect; overload;
+// Detect Chat Rich Text string
+function IsStringChatRichText(const Text: string) : Boolean;
 
 implementation
 
@@ -940,6 +944,8 @@ var
   Index     : Integer;
   FontStyle : TFontStyles;
 begin
+  // Default Fontstyle
+  FontStyle := [];
   // Clear list, remove all existing words
   Words.Clear;
   // If text is empty, exit
@@ -1047,6 +1053,8 @@ var
   LinkIndex        : Integer;
   Emoji            : TEmojiInfo;
 begin
+  //
+  CurrentLine := nil;
   // Initial Link index starts at zero
   LinkIndex := 0;
   // Clear list of Lines
@@ -1201,6 +1209,28 @@ begin
   // Update Rect size
   Result.Width  := OutputRectWidth;
   Result.Height := OutputRectHeight;
+end;
+
+{*******************************************************}
+{   Try to find out if given string is a ChatRichText   }
+{*******************************************************}
+function IsStringChatRichText(const Text: string) : Boolean;
+const
+  Open  : array [0..6] of string = ('<b>', '<i>', '<u>', '<s>', '<e>', '<a>', '<a href="');
+  Close : array [0..6] of string = ('</b>', '</i>', '</u>', '</s>', '</e>', '</a>', '</a>');
+var
+  I, O, C : Integer;
+  S       : string;
+begin
+  O := -1;
+  C := -1;
+  S := Lowercase(Text);
+  for I := 0 to 6 do
+  begin
+    if Pos(Open[I], S) > 0 then Inc(O);
+    if Pos(Close[I], S) > 0 then Inc(C);
+  end;
+  Result := (O > 0) and (C > 0); // At least one opening tag and one closing tag
 end;
 
 {*******************************************************}

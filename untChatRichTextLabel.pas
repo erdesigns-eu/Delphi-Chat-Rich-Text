@@ -300,6 +300,8 @@ var
   PX, PY   : Integer;
   WordInfo : TWordInfo;
 begin
+  PX := 0;
+  X  := 0;
   if (not HasParent) or FUpdating then Exit;
   //
   FUpdating := True;
@@ -310,7 +312,7 @@ begin
   // the parsing we dont build character information.
   //
   R := MeasureRichTextRect(FWords, FLines, ClientRect, False);
-  // Auto widdth
+  // Auto width
   if AutoWidth and (R.Width <> Width) then Width := R.Width;
   // Auto Height
   if AutoHeight and (R.Height <> Height) then Height := R.Height;

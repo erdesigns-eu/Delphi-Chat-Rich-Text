@@ -55,7 +55,7 @@ object frmChatBalloonPreview: TfrmChatBalloonPreview
     Margins.Bottom = 4
     Align = alClient
     BevelOuter = bvLowered
-    DoubleBuffered = True
+    DoubleBuffered = False
     ParentDoubleBuffered = False
     ShowCaption = False
     TabOrder = 1

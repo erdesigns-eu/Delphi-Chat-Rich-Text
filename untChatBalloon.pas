@@ -500,8 +500,6 @@ begin
 end;
 
 function TChatBalloonBase.TextSize(const Text: string; const Font: TFont; const Canvas: TCanvas) : TRect;
-var
-  R : TRect;
 begin
   with Canvas do
   begin
@@ -637,7 +635,7 @@ begin
   // Calculate Text Rect
   Canvas.Font.Assign(Self.Font);
   TR := TRect.Create(R.Left + Spacing, R.Top + Spacing, R.Right - Spacing, R.Bottom - Spacing);
-  TR := BuildLines(Words, Lines, S, TR, False, Canvas);
+  TR := BuildLines(Words, Lines, S, TR, True, Canvas);
   // Calculate output rect
   Result := TRect.Create(
     R.Left,

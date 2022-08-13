@@ -3,8 +3,8 @@ object frmEmojiListEditor: TfrmEmojiListEditor
   Top = 0
   BorderIcons = [biSystemMenu]
   Caption = 'frmEmojiListEditor'
-  ClientHeight = 373
-  ClientWidth = 542
+  ClientHeight = 362
+  ClientWidth = 534
   Color = clBtnFace
   Constraints.MinHeight = 400
   Constraints.MinWidth = 550
@@ -24,23 +24,25 @@ object frmEmojiListEditor: TfrmEmojiListEditor
     Left = 289
     Top = 0
     Width = 6
-    Height = 332
+    Height = 321
     OnMoved = FormResize
     ExplicitLeft = 225
     ExplicitHeight = 313
   end
   object Panel1: TPanel
     Left = 0
-    Top = 332
-    Width = 542
+    Top = 321
+    Width = 534
     Height = 41
     Align = alBottom
     BevelOuter = bvNone
     ShowCaption = False
     TabOrder = 2
+    ExplicitTop = 332
+    ExplicitWidth = 542
     object btnCancel: TButton
       AlignWithMargins = True
-      Left = 431
+      Left = 423
       Top = 8
       Width = 103
       Height = 25
@@ -52,10 +54,11 @@ object frmEmojiListEditor: TfrmEmojiListEditor
       Caption = 'Cancel'
       TabOrder = 1
       OnClick = btnCancelClick
+      ExplicitLeft = 431
     end
     object btnOK: TButton
       AlignWithMargins = True
-      Left = 324
+      Left = 316
       Top = 8
       Width = 103
       Height = 25
@@ -67,6 +70,7 @@ object frmEmojiListEditor: TfrmEmojiListEditor
       Caption = 'OK'
       TabOrder = 0
       OnClick = btnOKClick
+      ExplicitLeft = 324
     end
   end
   object GroupBox1: TGroupBox
@@ -74,7 +78,7 @@ object frmEmojiListEditor: TfrmEmojiListEditor
     Left = 8
     Top = 4
     Width = 281
-    Height = 324
+    Height = 313
     Margins.Left = 8
     Margins.Top = 4
     Margins.Right = 0
@@ -82,12 +86,13 @@ object frmEmojiListEditor: TfrmEmojiListEditor
     Align = alLeft
     Caption = ' Items: '
     TabOrder = 0
+    ExplicitHeight = 324
     object lvItems: TListView
       AlignWithMargins = True
       Left = 6
       Top = 43
       Width = 269
-      Height = 275
+      Height = 264
       Margins.Left = 4
       Margins.Top = 2
       Margins.Right = 4
@@ -111,6 +116,7 @@ object frmEmojiListEditor: TfrmEmojiListEditor
       ViewStyle = vsReport
       OnData = lvItemsData
       OnSelectItem = lvItemsSelectItem
+      ExplicitHeight = 275
     end
     object ToolBar: TToolBar
       AlignWithMargins = True
@@ -226,8 +232,8 @@ object frmEmojiListEditor: TfrmEmojiListEditor
     AlignWithMargins = True
     Left = 295
     Top = 4
-    Width = 239
-    Height = 324
+    Width = 231
+    Height = 313
     Margins.Left = 0
     Margins.Top = 4
     Margins.Right = 8
@@ -235,11 +241,13 @@ object frmEmojiListEditor: TfrmEmojiListEditor
     Align = alClient
     Caption = ' Emoji: '
     TabOrder = 1
+    ExplicitWidth = 239
+    ExplicitHeight = 324
     object lblDisplayName: TLabel
       AlignWithMargins = True
       Left = 10
-      Top = 217
-      Width = 219
+      Top = 169
+      Width = 211
       Height = 13
       Margins.Left = 8
       Margins.Top = 8
@@ -252,8 +260,8 @@ object frmEmojiListEditor: TfrmEmojiListEditor
     object Label1: TLabel
       AlignWithMargins = True
       Left = 10
-      Top = 263
-      Width = 219
+      Top = 215
+      Width = 211
       Height = 13
       Margins.Left = 8
       Margins.Top = 4
@@ -263,12 +271,26 @@ object frmEmojiListEditor: TfrmEmojiListEditor
       Caption = 'Short Code:'
       ExplicitWidth = 58
     end
+    object Label2: TLabel
+      AlignWithMargins = True
+      Left = 10
+      Top = 261
+      Width = 211
+      Height = 13
+      Margins.Left = 8
+      Margins.Top = 4
+      Margins.Right = 8
+      Margins.Bottom = 4
+      Align = alTop
+      Caption = 'Category:'
+      ExplicitWidth = 49
+    end
     object pnlPreview: TPanel
       AlignWithMargins = True
       Left = 10
       Top = 19
-      Width = 219
-      Height = 190
+      Width = 211
+      Height = 142
       Margins.Left = 8
       Margins.Top = 4
       Margins.Right = 8
@@ -279,15 +301,16 @@ object frmEmojiListEditor: TfrmEmojiListEditor
       ParentDoubleBuffered = False
       ShowCaption = False
       TabOrder = 0
+      ExplicitWidth = 219
       DesignSize = (
-        219
-        190)
+        211
+        142)
       object pbPreview: TPaintBox
         AlignWithMargins = True
         Left = 1
         Top = 1
-        Width = 216
-        Height = 187
+        Width = 208
+        Height = 139
         Margins.Left = 0
         Margins.Top = 0
         Margins.Right = 1
@@ -302,19 +325,20 @@ object frmEmojiListEditor: TfrmEmojiListEditor
       object imgPreview: TImage
         Left = 10
         Top = 10
-        Width = 196
-        Height = 166
+        Width = 188
+        Height = 118
         Anchors = [akLeft, akTop, akRight, akBottom]
         Center = True
         Proportional = True
         ExplicitWidth = 212
+        ExplicitHeight = 166
       end
     end
     object edtDisplayName: TEdit
       AlignWithMargins = True
       Left = 10
-      Top = 234
-      Width = 219
+      Top = 186
+      Width = 211
       Height = 21
       Margins.Left = 8
       Margins.Top = 0
@@ -323,12 +347,13 @@ object frmEmojiListEditor: TfrmEmojiListEditor
       Align = alTop
       TabOrder = 1
       OnChange = edtDisplayNameChange
+      ExplicitWidth = 219
     end
     object edtShortCode: TEdit
       AlignWithMargins = True
       Left = 10
-      Top = 280
-      Width = 219
+      Top = 232
+      Width = 211
       Height = 21
       Margins.Left = 8
       Margins.Top = 0
@@ -337,6 +362,23 @@ object frmEmojiListEditor: TfrmEmojiListEditor
       Align = alTop
       TabOrder = 2
       OnChange = edtShortCodeChange
+      ExplicitWidth = 219
+    end
+    object cbCategories: TComboBox
+      AlignWithMargins = True
+      Left = 10
+      Top = 278
+      Width = 211
+      Height = 21
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 8
+      Margins.Bottom = 4
+      Align = alTop
+      Style = csDropDownList
+      TabOrder = 3
+      OnChange = cbCategoriesChange
+      ExplicitWidth = 219
     end
   end
   object ImageList1: TImageList

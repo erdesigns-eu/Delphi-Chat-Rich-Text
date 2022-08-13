@@ -24,7 +24,8 @@ uses
   untChatRichText,
   untChatRichTextLabel,
   untChatBalloon,
-  untChatBalloonPreview;
+  untChatBalloonPreview,
+  untChatRichTextEdit;
 
 {*******************************************************}
 {              Emoji List Component Editor              }
@@ -109,6 +110,8 @@ begin
 
     // Load Emojis
     LoadItems((GetComponent as TEmojiList).Items);
+    // Load Categories
+    LoadCategories((GetComponent as TEmojiList).Categories);
 
     // Show Dialog
     ShowModal;
@@ -209,6 +212,8 @@ begin
 
     // Load Emojis
     LoadItems((GetComponent(0) as TEmojiList).Items);
+    // Load Categories
+    LoadCategories((GetComponent(0) as TEmojiList).Categories);
 
     // Show Dialog
     ShowModal;
@@ -257,12 +262,19 @@ begin
   RegisterComponentEditor(TChatBalloonBase, TChatBalloonComponentEditor);
   // Register Property Editors
   RegisterPropertyEditor(TypeInfo(TEmojiCollection), nil, '', TEmojiItemsEditor);
-  RegisterPropertyEditor(TypeInfo(TChatRichTextString), nil, '', TChatRichTextStringEditor);
+
+  // ToDo replace this with a property editor for the new TChatRichTextString type
+  //
+  //RegisterPropertyEditor(TypeInfo(TChatRichTextString), nil, '', TChatRichTextStringEditor);
+  //
+  //
+
   // Register Components
   RegisterComponents('ERDesigns', [
     TEmojiList,
     TChatRichTextLabel,
-    TSimpleChatBalloon
+    TSimpleChatBalloon,
+    TChatRichTextEdit
   ]);
 end;
 
