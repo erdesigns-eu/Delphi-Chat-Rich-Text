@@ -1,4 +1,11 @@
 # Delphi-Chat-Rich-Text
 Draw rich text with support for HTML like tags and Emoji's
 
-## I will update this repository in the coming days, and i will add some demo's if i have the time. This code is free to use, fork, modify. 
+
+### untChatRichTextEdit.pas
+This is a custom edit control with html like formatting and emoji's. Its based on a TCustomControl, not on a TEdit.
+
+### untChatRichTextEdit.pas
+This is a labelm with html like formatting and emoji's.
+
+This code might not be complete, i wrote this as a proof of concept when i wanted to create a messenger in Delphi.
